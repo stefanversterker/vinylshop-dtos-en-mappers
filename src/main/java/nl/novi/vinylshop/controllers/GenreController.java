@@ -1,6 +1,8 @@
 package nl.novi.vinylshop.controllers;
 
 
+import nl.novi.vinylshop.dto.genre.GenreRequestDto;
+import nl.novi.vinylshop.dto.genre.GenreResponseDto;
 import nl.novi.vinylshop.entities.GenreEntity;
 import nl.novi.vinylshop.helpers.UrlHelper;
 import nl.novi.vinylshop.services.GenreService;
@@ -31,25 +33,25 @@ public class GenreController {
     }
 
     @GetMapping
-    public ResponseEntity<List<GenreEntity>> getAllGenres() {
+    public ResponseEntity<List<GenreResponseDto>> getAllGenres() {
         var genres = genreService.findAllGenres();
         return ResponseEntity.ok(genres);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GenreEntity> getGenreById(@PathVariable Long id) {
+    public ResponseEntity<GenreResponseDto> getGenreById(@PathVariable Long id) {
         var genre = genreService.findGenreById(id);
         return new ResponseEntity<>(genre, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<GenreEntity> createGenre(@RequestBody GenreEntity genreInput) {
+    public ResponseEntity<GenreResponseDto> createGenre(@RequestBody GenreRequestDto genreInput) {
         var newGenre = genreService.createGenre(genreInput);
         return ResponseEntity.created(urlHelper.getCurrentUrlWithId(newGenre.getId())).body(newGenre);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<GenreEntity> updateGenre(@PathVariable Long id, @RequestBody GenreEntity genreInput) {
+    public ResponseEntity<GenreResponseDto> updateGenre(@PathVariable Long id, @RequestBody GenreRequestDto genreInput) {
         var updatedGenre = genreService.updateGenre(id, genreInput);
         return new ResponseEntity<>(updatedGenre, HttpStatus.OK);
     }

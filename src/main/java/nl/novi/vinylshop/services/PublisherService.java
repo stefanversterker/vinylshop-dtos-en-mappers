@@ -1,5 +1,7 @@
 package nl.novi.vinylshop.services;
 
+import nl.novi.vinylshop.dto.publisher.PublisherRequestDto;
+import nl.novi.vinylshop.dto.publisher.PublisherResponseDto;
 import nl.novi.vinylshop.entities.GenreEntity;
 import nl.novi.vinylshop.entities.PublisherEntity;
 import nl.novi.vinylshop.repositories.GenreRepository;
@@ -18,19 +20,19 @@ public class PublisherService{
         this.publisherRepository = publisherRepository;
     }
 
-    public List<PublisherEntity> findAllPublishers() {
+    public List<PublisherResponseDto> findAllPublishers() {
         return publisherRepository.findAll();
     }
 
-    public PublisherEntity findPublisherById(Long id) {
+    public PublisherResponseDto findPublisherById(Long id) {
         return getPublisherById(id);
     }
 
-    public PublisherEntity createPublisher(PublisherEntity inputPublisher) {
+    public PublisherResponseDto createPublisher(PublisherRequestDto inputPublisher) {
         return publisherRepository.save(inputPublisher);
     }
 
-    public PublisherEntity updatePublisher(Long id, PublisherEntity input) {
+    public PublisherResponseDto updatePublisher(Long id, PublisherRequestDto input) {
         PublisherEntity publisherEntity = getPublisherById(id);
         if(publisherEntity != null){
             publisherEntity.setAddress(input.getAddress());
@@ -38,7 +40,7 @@ public class PublisherService{
             publisherEntity.setContactDetails(input.getContactDetails());
             return publisherRepository.save(publisherEntity);
         }
-        return null;
+        return null; //aanpassen
     }
 
     public void deletePublisher(Long id) {

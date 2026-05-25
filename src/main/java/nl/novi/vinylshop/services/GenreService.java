@@ -1,5 +1,6 @@
 package nl.novi.vinylshop.services;
 
+import nl.novi.vinylshop.dto.genre.GenreResponseDto;
 import nl.novi.vinylshop.entities.GenreEntity;
 import nl.novi.vinylshop.repositories.GenreRepository;
 import org.springframework.stereotype.Service;
@@ -7,37 +8,43 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import nl.novi.vinylshop.dto.genre.GenreRequestDto;
+import nl.novi.vinylshop.dto.genre.GenreResponseDto;
+
 @Service
 public class GenreService {
 
     private final GenreRepository genreRepository;
+
 
     public GenreService(GenreRepository genreRepository) {
         this.genreRepository = genreRepository;
     }
 
 
-    public List<GenreEntity> findAllGenres() {
+    public List<GenreResponseDto> findAllGenres() {
         return genreRepository.findAll();
     }
 
 
-    public GenreEntity findGenreById(Long id) {
+    public GenreResponseDto findGenreById(Long id) {
        return getGenreById(id);
     }
 
 
-    public GenreEntity createGenre(GenreEntity input) {
+    public GenreResponseDto createGenre(GenreRequestDto input) {
         return genreRepository.save(input);
     }
 
 
-    public GenreEntity updateGenre(Long id, GenreEntity input) {
+    public GenreResponseDto updateGenre(Long id, GenreRequestDto input) {
         GenreEntity genre = getGenreById(id);
+
         if(genre != null) {
             genre.setDescription(input.getDescription());
             genre.setName(input.getName());
-            return genreRepository.save(genre);
+
+            return toResponseDto(genreRepository.save(genre));
         }
 
         return null;
