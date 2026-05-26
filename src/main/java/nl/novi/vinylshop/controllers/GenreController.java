@@ -1,6 +1,7 @@
 package nl.novi.vinylshop.controllers;
 
 
+import jakarta.validation.Valid;
 import nl.novi.vinylshop.dto.genre.GenreRequestDto;
 import nl.novi.vinylshop.dto.genre.GenreResponseDto;
 import nl.novi.vinylshop.entities.GenreEntity;
@@ -34,26 +35,29 @@ public class GenreController {
 
     @GetMapping
     public ResponseEntity<List<GenreResponseDto>> getAllGenres() {
-        var genres = genreService.findAllGenres();
+        List<GenreResponseDto> genres = genreService.findAllGenres();
         return ResponseEntity.ok(genres);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<GenreResponseDto> getGenreById(@PathVariable Long id) {
-        var genre = genreService.findGenreById(id);
-        return new ResponseEntity<>(genre, HttpStatus.OK);
+        GenreResponseDto genre = genreService.findGenreById(id);
+        return ResponseEntity.ok(genre);
     }
 
     @PostMapping
-    public ResponseEntity<GenreResponseDto> createGenre(@RequestBody GenreRequestDto genreInput) {
-        var newGenre = genreService.createGenre(genreInput);
-        return ResponseEntity.created(urlHelper.getCurrentUrlWithId(newGenre.getId())).body(newGenre);
+    //Ontvang data van client en sla dit op in genreModel object. @Valid checkt rules.
+    public ResponseEntity<GenreResponseDto> createGenre(@RequestBody @Valid GenreRequestDto genreModel) {
+        //Controller zegt tegen Service: Maak newGenre dto op basis van genreModel
+        GenreResponseDto newGenre = genreService.createGenre(genreModel);
+        //urlHelper geeft statuscode en header met datalocatie
+        return ResponseEntity.created(urlHelper.getCurrentUrlWithId(newGenre.id())).body(newGenre);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<GenreResponseDto> updateGenre(@PathVariable Long id, @RequestBody GenreRequestDto genreInput) {
-        var updatedGenre = genreService.updateGenre(id, genreInput);
-        return new ResponseEntity<>(updatedGenre, HttpStatus.OK);
+    public ResponseEntity<GenreResponseDto> updateGenre(@PathVariable Long id, @RequestBody @Valid GenreRequestDto genreInput) {
+        GenreResponseDto updatedGenre = genreService.updateGenre(id, genreInput);
+        return ResponseEntity.ok(updatedGenre);
     }
 
     @DeleteMapping("/{id}")
