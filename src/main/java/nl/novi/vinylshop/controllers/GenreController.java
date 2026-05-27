@@ -39,6 +39,7 @@ public class GenreController {
         return ResponseEntity.ok(genres);
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<GenreResponseDto> getGenreById(@PathVariable Long id) {
         GenreResponseDto genre = genreService.findGenreById(id);

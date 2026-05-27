@@ -10,9 +10,11 @@ import java.util.List;
 @Entity
 @Table(name = "publishers")
 public class PublisherEntity extends BaseEntity {
-    @Column(nullable = false)
+    @Column(nullable = false, name = "name")
     private String name;
+    @Column(name = "address")
     private String address;
+    @Column(name = "contact_details")
     private String contactDetails;
 
     public String getName() {

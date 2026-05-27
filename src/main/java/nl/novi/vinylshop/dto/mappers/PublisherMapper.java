@@ -19,16 +19,27 @@ public class PublisherMapper implements DTOMapper<
 
     @Override
     public PublisherResponseDto mapToDto(PublisherEntity model) {
-        return null;
+        return new PublisherResponseDto(
+                model.getId(),
+                model.getName(),
+                model.getAddress(),
+                model.getContactDetails()
+        );
     }
 
     @Override
     public List<PublisherResponseDto> mapToDto(List<PublisherEntity> models) {
-        return List.of();
+        return models.stream()
+                .map(this::mapToDto)
+                .toList();
     }
 
     @Override
-    public PublisherEntity mapToEntity(PublisherRequestDto genreModel) {
-        return null;
+    public PublisherEntity mapToEntity(PublisherRequestDto dto) {
+        PublisherEntity entity = new PublisherEntity();
+        entity.setName(dto.name());
+        entity.setAddress(dto.address());
+        entity.setContactDetails(dto.contactDetails());
+        return entity;
     }
 }

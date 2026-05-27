@@ -27,6 +27,7 @@ public class PublisherService{
     }
 
     public List<PublisherResponseDto> findAllPublishers() {
+        System.out.println(publisherRepository.count());
         return publisherMapper.mapToDto(publisherRepository.findAll());
     }
 //Zoek Publisher in database op basis van id

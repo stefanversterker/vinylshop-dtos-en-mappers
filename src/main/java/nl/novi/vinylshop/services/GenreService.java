@@ -28,6 +28,7 @@ public class GenreService {
 
 
     public List<GenreResponseDto> findAllGenres() {
+        System.out.println(genreRepository.count());
         return genreMapper.mapToDto(genreRepository.findAll());
     }
 
